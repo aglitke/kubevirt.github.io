@@ -26,6 +26,8 @@ In this blog post, I'd like to focus on the second method, embedding the informa
 
 For testing DataVolumes, I've spawned a new OpenShift cluster, using dynamic provisioning for storage running OpenShift Cloud Storage (GlusterFS), so the Persisten Volumes (PVs for short) are created on-demand. Other than that, it's a regular OpenShift cluster, running with a single master (also used for infrastructure components) and two compute nodes.
 
+(aglitke) I would recommend mentioning that CDI is expected to be deployed (and that this might happen automatically as part of the kubevirt installation process).
+
 ### Enabling DataVolumes feature
 
 As of this writing, DataVolumes have to be enabled through a [feature gate](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/), for KubeVirt, this is achieved by creating the _kubevirt-config_ ConfigMap on the namespace where KubeVirt has been deployed, by default _kube-system_.
@@ -238,3 +240,6 @@ Events:
 It's important to take a look to the annotations, these are monitored/set by CDI. CDI triggers an import when it detects the _cdi.kubevirt.io/storage.import.endpoint_, assigns a pod as the import task owner and updates the pod phase annotation.
 
 At this point, everything is in place, the DataVolume has its underlying components, the image has been imported so now the VirtualMachine can start the VirtualMachineInstance based on its definition and using the CentOS7 image as boot disk and as users we can connect to its console and
+
+
+(aglitke) I'd consider adding a section on what happens to the data when you delete the VirtualMachine when using a DataVolume in this way.
